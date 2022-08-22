@@ -102,8 +102,9 @@ TEST_F(test_buff, add_data){
 		my_buff.add_data(buff1, "d");
 	}
 	//Check buff contents
+	string test = "d";
 	for (int i = 0; i < buff1->capacity; i++){
-		ASSERT_EQ(buff1->buff[i], "d");
+		ASSERT_EQ(*(buff1->p+i), test);
 	}
 	//Try overfilling buff by adding additional elements
 	//This time elements start at 5 
@@ -116,7 +117,7 @@ TEST_F(test_buff, add_data){
 	//Ensure all elements were updated 
 	for (int i = 0; i < buff1->capacity; i++){
 		str = to_string(i+5);
-		ASSERT_EQ(buff1->buff[i], str);
+		ASSERT_EQ(*(buff1->p+i), str);
 	}
 }
 TEST_F(test_buff, read_data){
@@ -135,7 +136,7 @@ TEST_F(test_buff, read_data){
 	ASSERT_EQ(check, "C");
 	//Buffer should now be empty
 	for (int i = 0; i < buff1->capacity; i++){
-		ASSERT_EQ(buff1->buff[i], "");
+		ASSERT_EQ(*(buff1->p+i), "");
 	}
 	//Overfill buffer
 	my_buff.add_data(buff1, "A");
@@ -162,12 +163,12 @@ TEST_F(test_buff, reset_buffer){
 	my_buff.add_data(buff1, "B");
 	my_buff.add_data(buff1, "C");
 	//Reset
-	string check;
+	string *check;
 	my_buff.reset_buffer(buff1);
 	//Confirm all values have been reset
 	for (int i = 0; i < buff1->capacity; i++){
-        check = buff1->buff[i];
-		ASSERT_EQ(check, "");
+        check = buff1->p+i;
+		ASSERT_EQ(*check, "");
     }
 }
 

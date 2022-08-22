@@ -10,7 +10,8 @@ struct buffer{
     int capacity;
     int head;
     int tail;
-    string buff[15];
+    shared_ptr<string[]> buff;
+    string *p;
 };
 
 class Circ_buff{

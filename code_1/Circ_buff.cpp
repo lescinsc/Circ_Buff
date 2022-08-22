@@ -10,6 +10,9 @@ Circ_buff::~Circ_buff(){
 
 shared_ptr<buffer> Circ_buff:: InitBuff (int capacity){
     shared_ptr<buffer> ret (new buffer);
+    shared_ptr<string[]> arr (new string[capacity]);
+    ret->p = &arr[0];
+    ret->buff = arr;
     ret->capacity = capacity;
     ret->head = 0;
     ret->tail = 0;
@@ -20,7 +23,7 @@ shared_ptr<buffer> Circ_buff:: InitBuff (int capacity){
 void Circ_buff:: add_data(shared_ptr<buffer> buffer, string data){
     // Ensures wrap around
     buffer->head = buffer->head%buffer->capacity;
-    buffer->buff[buffer->head] = data;
+    *(buffer->p+buffer->head) = data;
     if (buffer->size == buffer->capacity){
         buffer->head++;
         buffer->tail++;
@@ -33,8 +36,8 @@ void Circ_buff:: add_data(shared_ptr<buffer> buffer, string data){
 
 string Circ_buff::read_data(shared_ptr<buffer> buffer){
     buffer->tail = buffer->tail%buffer->capacity;
-    string ret = buffer->buff[buffer->tail];
-    buffer->buff[buffer->tail] = "";
+    string ret = *(buffer->p+buffer->tail);
+    *(buffer->p+buffer->tail) = "";
     buffer->size--;
     buffer->tail++;
     return ret;
@@ -42,14 +45,14 @@ string Circ_buff::read_data(shared_ptr<buffer> buffer){
 
 void Circ_buff::reset_buffer(shared_ptr<buffer> buffer){
     for (int i = 0; i < buffer->capacity; i++){
-        buffer->buff[i] = "";
+        *(buffer->p+i) = "";
     }
     buffer->head = 0;
     buffer->tail = 0;
 }
 
 string Circ_buff::peak_data(shared_ptr<buffer> buffer){
-    return buffer->buff[buffer->tail];
+    return *(buffer->p+buffer->tail);
 }
 
 bool Circ_buff::is_full(shared_ptr<buffer> buffer){
