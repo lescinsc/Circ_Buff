@@ -8,4 +8,6 @@ The circular buffer has a wide range of applications in different devices.  It c
 The advantage of the circular buffer over other data types is that it is contstant time complexity for all of its functions.  Unlike a more general array, it is more specialized in that it only writes at the head location and reads at the tail location.  This feature makes it a better candidate for specific applications that need to store and retrieve data on a first in first out basis.  
 
 # Compiling the code
-The code can be compiled with CMAKE.  Navigate to the build folder and run CMAKE .. on the current directory.  Next, run make which will build the executable fils.  This will create a test executable file called "run_tests" which can be run with ./run_tests while still in the build folder.
+The code is split into a .h and .cpp file in the code_1 folder.
+
+The code can be compiled with CMAKE.  Navigate to the build folder and run CMAKE .. on the current directory.  Next, run make which will build the executable files.  This will create a test executable file called "run_tests" which can be run with ./run_tests while still in the build folder.
